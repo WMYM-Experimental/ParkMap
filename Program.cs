@@ -13,6 +13,26 @@ builder.Services.AddDefaultIdentity<ParkMapUser>(options => options.SignIn.Requi
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+#region Authorization
+void AddAuthorizationPolicies(IServiceCollection services)
+{
+    /*
+    services.AddAuthorization(options =>
+     {
+         options.AddPolicy("RequireAdministratorRole", policy => policy.RequireRole("Administrator"));
+         options.AddPolicy("RequireUserRole", policy => policy.RequireRole("User"));
+         options.AddPolicy("RequireAdministratorOrUserRole", policy => policy.RequireRole("Administrator", "User"));
+     });
+     */
+    services.AddAuthorization(options =>
+    {
+        options.AddPolicy("RequireAdministratorRole", policy => policy.RequireClaim("Administrator"));
+    });
+}
+
+AddAuthorizationPolicies(builder.Services);
+#endregion
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

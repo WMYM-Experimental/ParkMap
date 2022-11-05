@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using ParkMap.Areas.Identity.Data;
+using ParkMap.Models;
 
 namespace ParkMap.Areas.Identity.Data;
 
@@ -22,6 +23,10 @@ public class ParkMapContext : IdentityDbContext<ParkMapUser>
 
         builder.ApplyConfiguration(new ParkUserEntityConfiguration());
     }
+
+    public DbSet<ParkMap.Models.Post> Post { get; set; }
+
+    public DbSet<ParkMap.Models.ParkingLot> ParkingLot { get; set; }
 }
 
 public class ParkUserEntityConfiguration : IEntityTypeConfiguration<ParkMapUser>
