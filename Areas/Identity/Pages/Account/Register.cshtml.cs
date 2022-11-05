@@ -121,7 +121,8 @@ namespace ParkMap.Areas.Identity.Pages.Account
                 var user = CreateUser();
 
                 user.NickName = Input.NickName;
-
+                await _signInManager.UserManager.AddToRoleAsync(user, "User");
+                
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 var result = await _userManager.CreateAsync(user, Input.Password);
