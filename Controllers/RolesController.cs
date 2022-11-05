@@ -5,7 +5,7 @@ namespace ParkMap.Controllers
 {
     public class RolesController : Controller
     {
-        [Authorize(Policy = "RequireAdministratorRole")]
+        [Authorize(Roles = "Administrator")]
         public IActionResult Index()
         {
             return View();

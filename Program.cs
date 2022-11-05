@@ -8,6 +8,7 @@ builder.Services.AddDbContext<ParkMapContext>(options =>
     options.UseSqlServer(connectionString));
 
 builder.Services.AddDefaultIdentity<ParkMapUser>(options => options.SignIn.RequireConfirmedAccount = false)
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ParkMapContext>();
 
 // Add services to the container.
@@ -26,7 +27,8 @@ void AddAuthorizationPolicies(IServiceCollection services)
      */
     services.AddAuthorization(options =>
     {
-        options.AddPolicy("RequireAdministratorRole", policy => policy.RequireClaim("Administrator"));
+        options.AddPolicy("RequireAdministratorRole", policy => policy.RequireRole("Administrator"));
+        options.AddPolicy("RequireUserRole", policy => policy.RequireRole("User"));
     });
 }
 

@@ -126,9 +126,16 @@ namespace ParkMap.Areas.Identity.Pages.Account
                 {
                     var claims = new List<Claim>
                     {
-                        new Claim("amr", "pwd"),
-                        //new Claim("sub", user.Id),
+                        new Claim("amr", "pwd")
                     };
+
+                    var roles = await _signInManager.UserManager.GetRolesAsync(user);
+
+                    if (roles.Any())
+                    {
+                        var roleClaim = string.Join(",", roles);
+                        claims.Add(new Claim("Roles", roleClaim));
+                    }
 
                     await _signInManager.SignInWithClaimsAsync(user, Input.RememberMe, claims);
                     _logger.LogInformation("User logged in.");
