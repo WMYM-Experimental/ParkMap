@@ -9,7 +9,6 @@ namespace ParkMap.Areas.Identity.Data;
 // Add profile data for application users by adding properties to the ParkMapUser class
 public class ParkMapUser : IdentityUser
 {
-    public string FirstName { get; set; }
-    public string LastName { get; set; }
+    public string? NickName { get; set; }
 }
 

@@ -7,7 +7,7 @@ var connectionString = builder.Configuration.GetConnectionString("ParkMapContext
 builder.Services.AddDbContext<ParkMapContext>(options =>
     options.UseSqlServer(connectionString));
 
-builder.Services.AddDefaultIdentity<ParkMapUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<ParkMapUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<ParkMapContext>();
 
 // Add services to the container.
