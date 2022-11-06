@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using ParkMap.Models;
 
 namespace ParkMap.Controllers
 {
+    [Authorize(Roles = "Administrator")]
     public class ParkingLotsController : Controller
     {
         private readonly ParkMapContext _context;
@@ -86,7 +88,7 @@ namespace ParkMap.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Availability,FreeSpots,DateTime")] ParkingLot parkingLot)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Availability,FreeSpots")] ParkingLot parkingLot)
         {
             if (id != parkingLot.Id)
             {
@@ -97,6 +99,8 @@ namespace ParkMap.Controllers
             {
                 try
                 {
+                    parkingLot.DateTime = DateTime.Now;
+                    
                     _context.Update(parkingLot);
                     await _context.SaveChangesAsync();
                 }

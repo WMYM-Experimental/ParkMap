@@ -21,7 +21,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Availability" class="control-label"></label>
-                <input asp-for="Availability" class="form-control" />
+                <input type="range" min="0" max="2" step="1" asp-for="Availability" class="form-control" />
                 <span asp-validation-for="Availability" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -30,14 +30,41 @@
                 <span asp-validation-for="FreeSpots" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="DateTime" class="control-label"></label>
-                <input asp-for="DateTime" class="form-control" />
-                <span asp-validation-for="DateTime" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Save" class="btn udla text-light" />
             </div>
         </form>
+        <div class="cardHover">
+            @{
+                if (Model.Availability == 0)
+                {
+                    <div class="card redBg i__overlay">@Model.Name</div>
+                }
+                else if (Model.Availability == 1)
+                {
+                    <div class="card yellowBg i__overlay">@Model.Name</div>
+                }
+                else
+                {
+                    <div class="card greenBg i__overlay">@Model.Name</div>
+                }
+            }
+            <div>
+                @{
+                    switch (Model.Id)
+                    {
+                        case 1:
+                            <iframe class="card" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1865.0246898912108!2d-78.45732381610932!3d-0.1632657466412032!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x75552394aac684cf!2zMMKwMDknNDkuMiJTIDc4wrAyNycyOC4yIlc!5e1!3m2!1sen!2sec!4v1667740444016!5m2!1sen!2sec" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                            break;
+                        case 2:
+                            <iframe class="card" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d693.5739416141331!2d-78.45958037091827!3d-0.16295494144553818!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x494de438292c29b3!2sUniversidad%20de%20Las%20Am%C3%A9ricas%20Campus%20UDLAPark!5e1!3m2!1sen!2sec!4v1667748065480!5m2!1sen!2sec" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                            break;
+                        case 3:
+                            <iframe class="card" src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d932.5123731301968!2d-78.45830282239025!3d-0.16265688766252875!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e1!3m2!1sen!2sec!4v1667740534842!5m2!1sen!2sec" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                            break;
+                    }
+                }
+            </div>
+        </div>
     </div>
 </div>
 
@@ -46,5 +73,7 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }
