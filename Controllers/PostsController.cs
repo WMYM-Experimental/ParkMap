@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ParkMap.Areas.Identity.Data;
+using ParkMap.DataAccess.Repositories;
 using ParkMap.Models;
 
 namespace ParkMap.Controllers
@@ -21,9 +21,7 @@ namespace ParkMap.Controllers
             _context = context;
         }
 
-
         // GET: Posts
-        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             var parkMapContext = _context.Post.Include(p => p.ParkingLot);
@@ -31,7 +29,6 @@ namespace ParkMap.Controllers
         }
 
         // GET: Posts/Details/5
-        [Authorize(Roles = "Administrator, User")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Post == null)
@@ -51,10 +48,9 @@ namespace ParkMap.Controllers
         }
 
         // GET: Posts/Create
-        [Authorize(Roles = "Administrator, User")]
         public IActionResult Create()
         {
-            ViewData["ParkingLotId"] = new SelectList(_context.Set<ParkingLot>(), "Id", "Name");
+            ViewData["ParkingLotId"] = new SelectList(_context.ParkingLot, "Id", "Name");
             return View();
         }
 
@@ -63,21 +59,25 @@ namespace ParkMap.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Administrator, User")]
-        public async Task<IActionResult> Create([Bind("Id,ParMapUserId,ParkingLotId,Date,State,Text,Picture")] Post post)
+        public async Task<IActionResult> Create([Bind("Id,ParkingLotId,Text,Picture")] Post post)
         {
             if (ModelState.IsValid)
             {
+                // get the current user who performs the action
+                var repo = new ParkMapUserRepository(_context);
+                string user = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                post.Date = DateTime.Now;
+                post.State = true;
+
                 _context.Add(post);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ParkingLotId"] = new SelectList(_context.Set<ParkingLot>(), "Id", "Name", post.ParkingLotId);
+            ViewData["ParkingLotId"] = new SelectList(_context.ParkingLot, "Id", "Name", post.ParkingLotId);
             return View(post);
         }
 
         // GET: Posts/Edit/5
-        [Authorize(Roles = "Administrator, User")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Post == null)
@@ -90,7 +90,7 @@ namespace ParkMap.Controllers
             {
                 return NotFound();
             }
-            ViewData["ParkingLotId"] = new SelectList(_context.Set<ParkingLot>(), "Id", "Name", post.ParkingLotId);
+            ViewData["ParkingLotId"] = new SelectList(_context.ParkingLot, "Id", "Name", post.ParkingLotId);
             return View(post);
         }
 
@@ -99,8 +99,7 @@ namespace ParkMap.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Administrator, User")]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,ParMapUserId,ParkingLotId,Date,State,Text,Picture")] Post post)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,ParkMapUserId,ParkingLotId,Date,State,Text,Picture")] Post post)
         {
             if (id != post.Id)
             {
@@ -127,12 +126,11 @@ namespace ParkMap.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ParkingLotId"] = new SelectList(_context.Set<ParkingLot>(), "Id", "Name", post.ParkingLotId);
+            ViewData["ParkingLotId"] = new SelectList(_context.ParkingLot, "Id", "Name", post.ParkingLotId);
             return View(post);
         }
 
         // GET: Posts/Delete/5
-        [Authorize(Roles = "Administrator, User")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Post == null)
@@ -154,7 +152,6 @@ namespace ParkMap.Controllers
         // POST: Posts/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Administrator, User")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.Post == null)

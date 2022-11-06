@@ -7,10 +7,7 @@ namespace ParkMap.Models
     {
         [Key]
         public int Id { get; set; }
-
-        public int ParkMapUserId { get; set; }
         public ParkMapUser? ParkMapUser { get; set; }
-
         public bool Type { get; set; } // true for like, false for dislike
     }
 }

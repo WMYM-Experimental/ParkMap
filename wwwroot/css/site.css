@@ -48,3 +48,15 @@ body {
     height: 100%;
 }
 */
+.window {
+    width: 100%;
+    height: 100%;
+}
+
+.disp-flex {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+}

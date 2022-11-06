@@ -12,8 +12,8 @@ namespace ParkMap.Models
 
         [Key]
         public int Id { get; set; }
-        public int ParMapUserId { get; set; }
-        public ParkMapUser? User { get; set; }
+        public int ParkMapUserId { get; set; }
+        public ParkMapUser? ParkMapUser { get; set; }
 
         public int ParkingLotId { get; set; }
         public ParkingLot? ParkingLot { get; set; }

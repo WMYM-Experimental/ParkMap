@@ -10,5 +10,10 @@ namespace ParkMap.Areas.Identity.Data;
 public class ParkMapUser : IdentityUser
 {
     public string? NickName { get; set; }
+
+    public static implicit operator ParkMapUser(string v)
+    {
+        throw new NotImplementedException();
+    }
 }
 
