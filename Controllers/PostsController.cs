@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -20,6 +21,7 @@ namespace ParkMap.Controllers
         }
 
         // GET: Posts
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             var parkMapContext = _context.Post.Include(p => p.ParkingLot);
@@ -27,6 +29,7 @@ namespace ParkMap.Controllers
         }
 
         // GET: Posts/Details/5
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Post == null)
@@ -46,6 +49,7 @@ namespace ParkMap.Controllers
         }
 
         // GET: Posts/Create
+        [Authorize(Roles = "Administrator, User")]
         public IActionResult Create()
         {
             ViewData["ParkingLotId"] = new SelectList(_context.ParkingLot, "Id", "Name");
@@ -75,6 +79,7 @@ namespace ParkMap.Controllers
         }
 
         // GET: Posts/Edit/5
+        [Authorize(Roles = "Administrator, User")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Post == null)
@@ -96,6 +101,7 @@ namespace ParkMap.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator, User")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,ParkingLotId,Date,State,Text,Picture,MyEmail")] Post post)
         {
             if (id != post.Id)
@@ -128,6 +134,7 @@ namespace ParkMap.Controllers
         }
 
         // GET: Posts/Delete/5
+        [Authorize(Roles = "Administrator, User")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Post == null)
@@ -149,6 +156,7 @@ namespace ParkMap.Controllers
         // POST: Posts/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator, User")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.Post == null)

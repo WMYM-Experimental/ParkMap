@@ -10,8 +10,8 @@
 <h4>ParkingLot</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
+    <div class="disp-flex-ex">
+        <form class="part-of" asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
@@ -33,13 +33,17 @@
                 <input asp-for="DateTime" class="form-control" />
                 <span asp-validation-for="DateTime" class="text-danger"></span>
             </div>
+            <br />
             <div class="form-group">
                 <input type="submit" value="Create" class="btn udla text-light" />
             </div>
         </form>
+
+        <img src="https://www.udlaquito.com/app/mailCreator/public/uploads/2022091985205_UDLA%20FONDO.png" alt="udla" class="img-fluid" />
     </div>
 </div>
 
+<br/>
 <div>
     <a asp-action="Index" class="btn btn-secondary">Back to List</a>
 </div>

@@ -20,7 +20,7 @@
 
     @foreach (var item in parkingLots)
     {
-        <div class="container-sm">
+        <div class="container-sm disp-flex-col">
             <h2>@item.Name</h2>
             @{
                 switch (@item.Id)
@@ -37,14 +37,14 @@
                 }
             }
 
-            <div class="details">
-                <span>Info</span>
-                <p>@item.FreeSpots</p>
+            <div>
+                <span class="text-black">Info</span>
+                <p>Free Spots: @item.FreeSpots</p>
                 @{
                     switch (@item.Availability)
                     {
                         case 0:
-                            <p>Available</p>
+                            <p> Available</p>
                             break;
                         case 1:
                             <p>Semi Available</p>
@@ -56,10 +56,11 @@
                 }
                 <span>Last Update</span>
                 <p>@item.DateTime</p>
-            </div>
 
-            <div class="container">
-                <a asp-controller="Posts" asp-action="Index" class="btn udla text-light">Posts about</a>
+                <div class="container">
+                    <a asp-controller="Posts" asp-action="Index" class="btn udla text-light">Posts about</a>
+                </div>
+                
             </div>
         </div>
     }
