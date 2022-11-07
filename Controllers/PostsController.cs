@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ParkMap.Areas.Identity.Data;
-using ParkMap.DataAccess.Repositories;
 using ParkMap.Models;
 
 namespace ParkMap.Controllers
@@ -59,17 +57,16 @@ namespace ParkMap.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,ParkingLotId,Text,Picture")] Post post)
+        public async Task<IActionResult> Create([Bind("Id,ParkingLotId,Date,State,Text,Picture,MyEmail")] Post post)
         {
             if (ModelState.IsValid)
             {
-                // get the current user who performs the action
-                var repo = new ParkMapUserRepository(_context);
-                string user = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-                post.Date = DateTime.Now;
-                post.State = true;
-
                 _context.Add(post);
+                
+                post.MyEmail = User.Identity.Name;
+                post.State = true;
+                post.Date = DateTime.Now;
+                
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -99,7 +96,7 @@ namespace ParkMap.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,ParkMapUserId,ParkingLotId,Date,State,Text,Picture")] Post post)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,ParkingLotId,Date,State,Text,Picture,MyEmail")] Post post)
         {
             if (id != post.Id)
             {

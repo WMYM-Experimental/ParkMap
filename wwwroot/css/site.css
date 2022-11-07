@@ -56,7 +56,13 @@ body {
 .disp-flex {
     display: flex;
     flex-direction: row;
-    gap: 10px;
+    gap: 30px;
     justify-content: center;
     align-items: center;
+}
+.border-udla {
+    border: 1px solid #8C042C;
+    border-radius: 8px;
+    padding: 10px;
+    margin: 10px;
 }

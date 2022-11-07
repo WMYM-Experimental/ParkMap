@@ -7,4 +7,15 @@
 <header>
     <h1 class="text-danger">@ViewData["Title"]</h1>
     <p class="text-danger">You do not have access to this resource.</p>
+    <div>
+        <a asp-page="/Index" class="btn udla text-light">Return to home page</a>
+        <br />
+        <spanclass ="text-danger">
+            Try logging in with an Admin account.
+        </spanclass>
+        <span>
+            <p>User: <span>admin@test.com</span></p>
+            <p>Password: <span>123Was!</span></p>
+        </span>
+    </div>
 </header>

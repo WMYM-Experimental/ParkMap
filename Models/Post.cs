@@ -12,7 +12,6 @@ namespace ParkMap.Models
 
         [Key]
         public int Id { get; set; }
-        public int ParkMapUserId { get; set; }
         public ParkMapUser? ParkMapUser { get; set; }
 
         public int ParkingLotId { get; set; }
@@ -29,5 +28,7 @@ namespace ParkMap.Models
         public string? Picture { get; set; } // ask if a picture could be stored like this.
 
         public ICollection<Reaction>? Reactions { get; set; }
+
+        public string MyEmail { get; set; }
     }
 }
